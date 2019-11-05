@@ -3,7 +3,7 @@ package com.cy.tester.dtos;
 public class LoggerDTO {
 	private int testCaseNo;
 	private int testCaseRow;
-	private String testCaseInput;
+	private String[] testCaseInput;
 	private String testCaseOutput;
 	private String result;
 	private String note;
@@ -24,11 +24,11 @@ public class LoggerDTO {
 		this.testCaseRow = testCaseRow;
 	}
 
-	public String getTestCaseInput() {
+	public String[] getTestCaseInput() {
 		return testCaseInput;
 	}
 
-	public void setTestCaseInput(String testCaseInput) {
+	public void setTestCaseInput(String[] testCaseInput) {
 		this.testCaseInput = testCaseInput;
 	}
 
