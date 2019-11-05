@@ -20,7 +20,7 @@ public class LoggerCore implements ILoggerCore {
 	}
 
 	@Override
-	public void testApp(String directoryPath, String className, String methodName) {
+	public void testApp(String directoryPath) {
 		pickFiles(directoryPath);
 	}
 
@@ -42,6 +42,8 @@ public class LoggerCore implements ILoggerCore {
 				Files.lines(path).forEach(line -> {
 					fileLines.add(line);
 				});
+			} else {
+				return;
 			}
 
 			// Variables
@@ -78,7 +80,6 @@ public class LoggerCore implements ILoggerCore {
 						if (fileStarted == false) {
 							continue;
 						} else {
-							System.out.println("data started at: " + i);
 							if (COMMANDS.containsKey(fileLines.get(i).trim())) {
 								CommandDTO cd = new CommandDTO();
 								cd = processCommands(fileLines.get(i));
@@ -93,7 +94,7 @@ public class LoggerCore implements ILoggerCore {
 									String[] testCaseInputArr = new String[testCaseInput.size()];
 									for (int s = 0; s < testCaseInput.size(); s++) {
 										testCaseInputArr[s] = testCaseInput.get(s);
-										System.out.println("test case: " + testCaseInputArr[s]);
+										// System.out.println("test case: " + testCaseInputArr[s]);
 									}
 									ld.setTestCaseInput(testCaseInputArr);
 									testCaseInput.clear();
@@ -109,6 +110,13 @@ public class LoggerCore implements ILoggerCore {
 						}
 					}
 				}
+			}
+
+			if (className == null) {
+				throw new Exception("ERROR: No class name found in the file: " + path.toString());
+			}
+			if (methodName == null) {
+				throw new Exception("ERROR: No method name found in the file.");
 			}
 			MethodCore mc = new MethodCore();
 			mc.parameterList(className, methodName);

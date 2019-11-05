@@ -19,6 +19,11 @@ public class MethodCore {
 					break;
 				}
 			}
+
+			if (parameterTypes == null) {
+				throw new Exception("ERROR: The method specified in file can not be found.");
+			}
+
 			// Get parameter details
 			for (Class<?> cls : parameterTypes) {
 				ParameterDTO pd = new ParameterDTO();
@@ -27,10 +32,12 @@ public class MethodCore {
 				apd.add(pd);
 			}
 			return apd;
+		} catch (ClassNotFoundException e) {
+			System.out.println("The class specified in the file can not be found.");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return apd;
 		}
+		return apd;
 	}
 
 	public String[] processVariable(String line) {
