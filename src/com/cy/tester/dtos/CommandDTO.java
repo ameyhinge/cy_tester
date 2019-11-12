@@ -3,6 +3,7 @@ package com.cy.tester.dtos;
 public class CommandDTO {
 	private boolean startFileFlag;
 	private boolean endCaseFlag;
+	private boolean outputFlag;
 
 	public boolean getStartFileFlag() {
 		return startFileFlag;
@@ -18,6 +19,14 @@ public class CommandDTO {
 
 	public void setEndCaseFlag(boolean endCaseFlag) {
 		this.endCaseFlag = endCaseFlag;
+	}
+
+	public boolean getOutputFlag() {
+		return outputFlag;
+	}
+
+	public void setOutputFlag(boolean outputFlag) {
+		this.outputFlag = outputFlag;
 	}
 
 }

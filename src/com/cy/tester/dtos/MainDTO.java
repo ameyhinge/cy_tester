@@ -1,11 +1,11 @@
 package com.cy.tester.dtos;
 
-public class LoggerDTO {
+public class MainDTO {
 	private int testCaseNo;
 	private int testCaseRow;
 	private String[] testCaseInput;
-	private String testCaseOutput;
-	private String result;
+	private String[] testCaseOutput;
+	private String[] testCaseExpectedOutput;
 	private String note;
 
 	public int getTestCaseNo() {
@@ -32,20 +32,20 @@ public class LoggerDTO {
 		this.testCaseInput = testCaseInput;
 	}
 
-	public String getTestCaseOutput() {
+	public String[] getTestCaseOutput() {
 		return testCaseOutput;
 	}
 
-	public void setTestCaseOutput(String testCaseOutput) {
+	public void setTestCaseOutput(String[] testCaseOutput) {
 		this.testCaseOutput = testCaseOutput;
 	}
 
-	public String getResult() {
-		return result;
+	public String[] getTestCaseExpectedOutput() {
+		return testCaseExpectedOutput;
 	}
 
-	public void setResult(String result) {
-		this.result = result;
+	public void setTestCaseExpectedOutput(String[] testCaseExpectedOutput) {
+		this.testCaseExpectedOutput = testCaseExpectedOutput;
 	}
 
 	public String getNote() {

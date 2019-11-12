@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 
 import com.cy.tester.interfaces.*;
 
-public class LoggerDriver {
+public class CytDriver {
 
 	public static void main(String[] args) {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -13,7 +13,7 @@ public class LoggerDriver {
 			System.out.println("Enter the path of test cases directory");
 			String directoryPath = br.readLine();
 
-			ILoggerCore lc = new LoggerCore();
+			ICytCore lc = new CytCore();
 			lc.testApp(directoryPath);
 
 		} catch (Exception e) {
