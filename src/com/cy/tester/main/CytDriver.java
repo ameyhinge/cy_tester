@@ -8,6 +8,9 @@ import com.cy.tester.interfaces.*;
 public class CytDriver {
 
 	public static void main(String[] args) {
+
+		double startTime = System.currentTimeMillis();
+
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		try {
 			System.out.println("Enter the path of test cases directory");
@@ -19,6 +22,8 @@ public class CytDriver {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		System.out.println("Time to complete (ms): " + (System.currentTimeMillis() - startTime));
 	}
 
 }

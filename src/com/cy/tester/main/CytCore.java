@@ -1,5 +1,7 @@
 package com.cy.tester.main;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -8,7 +10,6 @@ import java.util.HashMap;
 
 import com.cy.tester.dtos.CommandDTO;
 import com.cy.tester.dtos.MainDTO;
-import com.cy.tester.dtos.ParameterDTO;
 import com.cy.tester.interfaces.ICytCore;
 
 public class CytCore implements ICytCore {
@@ -30,24 +31,37 @@ public class CytCore implements ICytCore {
 	private void pickFiles(String directoryPath) {
 		try {
 			Files.newDirectoryStream(Paths.get(directoryPath), path -> path.toFile().isFile())
-					.forEach(path -> processFile(path));
+					.forEach(path -> validFiles(path));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void processFile(Path path) {
-		try {
-			ArrayList<String> fileLines = new ArrayList<String>();
-			if (path.toString().endsWith(".txt")) {
-				// Pass the values in arraylist
-				Files.lines(path).forEach(line -> {
-					fileLines.add(line);
-				});
-			} else {
-				return;
+	private void validFiles(Path path) {
+		ArrayList<String> fileLines = new ArrayList<String>();
+		if (path.toString().endsWith(".txt")) {
+			try {
+				BufferedReader br = new BufferedReader(new FileReader(path.toString()));
+				String tem = null;
+				while ((tem = br.readLine()) != null) {
+					fileLines.add(tem);
+				}
+				br.close();
+
+				processFile(fileLines, path);
+
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 
+		} else {
+			return;
+		}
+	}
+
+	private void processFile(ArrayList<String> fileLines, Path path) {
+
+		try {
 			// Variables
 			boolean fileStarted = false;
 			boolean resultStarted = false;
@@ -90,15 +104,16 @@ public class CytCore implements ICytCore {
 								// Prepare object for single test case
 								if (cd.getEndCaseFlag() == true) {
 									testCaseNo++;
-									System.out.println("Test number: " + testCaseNo);
+									// System.out.println("Test number: " + testCaseNo);
 									MainDTO mn = new MainDTO();
 									mn.setTestCaseNo(testCaseNo);
+									mn.setTestCaseRow(i - testCaseInput.size() - testCaseOutput.size());
 
 									// Convert input to array
 									String[] testCaseInputArr = new String[testCaseInput.size()];
 									for (int s = 0; s < testCaseInput.size(); s++) {
 										testCaseInputArr[s] = testCaseInput.get(s);
-										System.out.println("test case input: " + testCaseInputArr[s]);
+										// System.out.println("test case input: " + testCaseInputArr[s]);
 									}
 									mn.setTestCaseInput(testCaseInputArr);
 									testCaseInput.clear();
@@ -107,7 +122,7 @@ public class CytCore implements ICytCore {
 									String[] testCaseOutputArr = new String[testCaseOutput.size()];
 									for (int s = 0; s < testCaseOutput.size(); s++) {
 										testCaseOutputArr[s] = testCaseOutput.get(s);
-										System.out.println("test case expected output: " + testCaseOutputArr[s]);
+										// System.out.println("test case expected output: " + testCaseOutputArr[s]);
 									}
 									mn.setTestCaseExpectedOutput(testCaseOutputArr);
 									testCaseOutput.clear();
@@ -144,10 +159,8 @@ public class CytCore implements ICytCore {
 				throw new Exception("ERROR: No method name found in the file.");
 			}
 
-			ArrayList<ParameterDTO> parameterList = new ArrayList<ParameterDTO>();
 			MethodCore mc = new MethodCore();
-			parameterList = mc.parameterList(className, methodName);
-			mc.invokeFunction(parameterList, mainArray, className, methodName);
+			mc.invokeFunction(mainArray, className, methodName);
 
 		} catch (Exception e) {
 			e.printStackTrace();
